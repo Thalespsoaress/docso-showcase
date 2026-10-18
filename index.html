@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Docso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+/* Layout: faixa preta de abertura com o produto em cena, depois faixas claras alternadas; cor só como sinal de status. Visual único da marca, sem tema escuro alternativo. */
+:root {
+  --preto: #0A0A0A; --branco: #FAFAFA; --cinza-sup: #F0F0F0; --cinza-borda: #E4E4E4;
+  --cinza-texto: #A0A0A0; --cinza-medio: #666666; --cinza-dark: #1A1A1A; --linha-dark: #262626;
+  --azul: #30BCFE; --vermelho: #FE7451; --amarelo: #FADB02; --verde: #39BD3D;
+  --display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --corpo: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --max: 1120px;
+}
+* { box-sizing: border-box; }
+body { background: var(--branco); color: var(--preto); font-family: var(--corpo); font-weight: 400; line-height: 1.7; font-size: 16px; -webkit-font-smoothing: antialiased; }
+.faixa { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.wrap { max-width: var(--max); margin: 0 auto; }
+h1, h2, h3 { font-family: var(--display); letter-spacing: -0.03em; line-height: 1.05; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+.label { font-family: var(--corpo); font-weight: 500; font-size: 12px; line-height: 1.4; color: var(--cinza-texto); }
+.dot { color: var(--azul); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--azul); outline-offset: 3px; }
+
+/* Abertura */
+.escura { background: var(--preto); color: var(--branco); }
+nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 24px; }
+nav svg { height: 26px; width: auto; display: block; }
+.btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--display); font-weight: 600; font-size: 15px; border-radius: 10px; padding: 12px 20px; text-decoration: none; border: 0; cursor: pointer; transition: transform .15s ease, background .15s ease; }
+.btn-azul { background: var(--azul); color: var(--preto); }
+.btn-azul:hover { transform: translateY(-1px); }
+.btn-ghost { color: var(--branco); border: 1px solid var(--linha-dark); background: transparent; }
+.hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 56px; align-items: center; padding-block: 56px 96px; }
+.hero h1 { font-weight: 800; font-size: clamp(44px, 6.4vw, 80px); }
+.hero .sub { color: var(--cinza-texto); font-weight: 300; font-size: 19px; max-width: 34ch; margin-top: 24px; }
+.hero .acoes { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+
+/* Cena do produto: gravação → documento */
+.cena { position: relative; display: grid; gap: 14px; }
+.janela { background: var(--cinza-dark); border: 1px solid var(--linha-dark); border-radius: 14px; overflow: hidden; }
+.janela-topo { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--linha-dark); }
+.rec { width: 8px; height: 8px; border-radius: 50%; background: var(--vermelho); animation: pulso 1.6s ease-in-out infinite; }
+@keyframes pulso { 50% { opacity: .3; } }
+.url { font-size: 12px; color: var(--cinza-texto); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.eventos { list-style: none; margin: 0; padding: 8px 0; font-size: 13px; }
+.eventos li { display: grid; grid-template-columns: 56px 64px minmax(0, 1fr); gap: 10px; padding: 7px 14px; color: #D0D0D0; align-items: baseline; }
+.eventos .t { color: var(--cinza-texto); font-variant-numeric: tabular-nums; font-size: 12px; }
+.eventos .tipo { color: var(--azul); font-weight: 500; font-size: 12px; }
+.eventos .txt { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.doc { background: var(--branco); color: var(--preto); border-radius: 14px; padding: 22px; box-shadow: 0 30px 60px -20px rgba(0,0,0,.6); margin-left: 40px; }
+.doc-topo { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.doc h3 { font-size: 20px; font-weight: 700; margin-top: 10px; }
+.doc ol { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.doc li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; font-size: 14px; line-height: 1.5; }
+.doc li b { font-family: var(--display); font-weight: 600; }
+.doc .n { width: 26px; height: 26px; border-radius: 50%; background: var(--cinza-sup); display: grid; place-items: center; font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.doc .desc { color: var(--cinza-medio); display: block; }
+
+.status-pill { display: inline-block; font-family: var(--corpo); font-weight: 500; font-size: 12px; line-height: 1; padding: 6px 10px; border-radius: 999px; }
+.status-publicado { background: rgba(57,189,61,.14); color: #1F7A22; }
+.status-rascunho { background: rgba(250,219,2,.25); color: #6B5D00; }
+.status-desatualizado { background: rgba(254,116,81,.16); color: #B23E1F; }
+
+/* Problema */
+.problema { padding-block: 112px; }
+.problema .grande { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 3.6vw, 44px); letter-spacing: -0.03em; line-height: 1.15; max-width: 22ch; text-wrap: balance; }
+.problema .grande span { color: var(--cinza-texto); }
+.fatos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-top: 64px; border-top: 1px solid var(--cinza-borda); padding-top: 32px; }
+.fatos p { color: var(--cinza-medio); max-width: 32ch; }
+.fatos strong { display: block; font-family: var(--display); font-weight: 700; font-size: 18px; color: var(--preto); letter-spacing: -0.02em; margin-bottom: 6px; }
+
+/* Pilares */
+.pilares { background: var(--cinza-sup); padding-block: 112px; }
+.sec-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 48px; }
+.sec-head h2 { font-weight: 800; font-size: clamp(32px, 4.4vw, 52px); max-width: 16ch; }
+.sec-head p { color: var(--cinza-medio); max-width: 40ch; }
+.pilar-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.pilar { background: var(--branco); border-radius: 16px; padding: 28px; display: grid; grid-template-rows: auto auto 1fr auto; gap: 12px; }
+.pilar h3 { font-size: 28px; font-weight: 800; }
+.pilar p { color: var(--cinza-medio); }
+.pilar .mini { margin-top: 12px; border-top: 1px solid var(--cinza-borda); padding-top: 16px; font-size: 13px; display: grid; gap: 8px; }
+.mini .row { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+.mini .row span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.barra { height: 6px; background: var(--cinza-sup); border-radius: 99px; overflow: hidden; flex: 0 0 72px; }
+.barra i { display: block; height: 100%; background: var(--azul); border-radius: 99px; }
+
+/* Como funciona */
+.fluxo { padding-block: 112px; }
+.passos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--preto); }
+.passos li { padding: 24px 24px 0 0; display: grid; gap: 10px; align-content: start; }
+.passos .num { font-family: var(--display); font-weight: 800; font-size: 15px; color: var(--azul); font-variant-numeric: tabular-nums; }
+.passos h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
+.passos p { color: var(--cinza-medio); font-size: 15px; }
+
+/* Público */
+.publico { background: var(--preto); color: var(--branco); padding-block: 112px; }
+.publico .sec-head p { color: var(--cinza-texto); }
+.tipos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--linha-dark); border: 1px solid var(--linha-dark); border-radius: 16px; overflow: hidden; }
+.tipo-card { background: var(--preto); padding: 28px; display: grid; gap: 10px; align-content: start; }
+.tipo-card h3 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+.tipo-card p { color: var(--cinza-texto); font-weight: 300; }
+.tipo-card .ex { font-size: 12px; font-weight: 500; color: var(--azul); }
+
+/* Planos */
+.planos { padding-block: 112px; }
+.plano-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.plano { border: 1px solid var(--cinza-borda); border-radius: 16px; padding: 28px; display: grid; gap: 18px; align-content: start; background: var(--branco); }
+.plano.destaque { border-color: var(--preto); box-shadow: 0 0 0 1px var(--preto); }
+.plano h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.preco { font-family: var(--display); font-weight: 800; font-size: 44px; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+.preco small { font-family: var(--corpo); font-weight: 400; font-size: 14px; color: var(--cinza-medio); letter-spacing: 0; }
+.plano ul { list-style: none; margin: 0; padding: 16px 0 0; border-top: 1px solid var(--cinza-borda); display: grid; gap: 8px; font-size: 15px; color: var(--cinza-medio); }
+.plano ul b { color: var(--preto); font-weight: 500; font-variant-numeric: tabular-nums; }
+.nota { margin-top: 20px; font-size: 14px; color: var(--cinza-medio); }
+
+/* Fechamento */
+.fim { background: var(--preto); color: var(--branco); padding-block: 120px 48px; }
+.fim h2 { font-weight: 800; font-size: clamp(40px, 6vw, 76px); max-width: 14ch; }
+.fim .acoes { margin-top: 36px; display: flex; gap: 12px; flex-wrap: wrap; }
+footer { margin-top: 96px; padding-top: 24px; border-top: 1px solid var(--linha-dark); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--cinza-texto); }
+footer svg { height: 18px; width: auto; }
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: minmax(0, 1fr); padding-block: 32px 72px; gap: 48px; }
+  .pilar-grid, .tipos, .plano-grid, .fatos { grid-template-columns: minmax(0, 1fr); }
+  .passos { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 32px; }
+  .doc { margin-left: 16px; }
+}
+@media (max-width: 520px) {
+  .passos { grid-template-columns: minmax(0, 1fr); }
+  .doc { margin-left: 0; }
+  nav .btn-azul { display: none; }
+  .problema, .pilares, .fluxo, .publico, .planos { padding-block: 72px; }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<style>html,body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo" viewBox="0 0 513.4 140"><path fill="currentColor" d="M0 90a50 50 0 1 1 100 0a50 50 0 1 1 -100 0ZM26 90a24 28 0 1 0 48 0a24 28 0 1 0 -48 0ZM74 0h26v140h-26ZM112 90a50 50 0 1 1 100 0a50 50 0 1 1 -100 0ZM138 90a24 28 0 1 0 48 0a24 28 0 1 0 -48 0ZM309.4 125.4A50 50 0 1 1 309.4 54.6L291 70.2A24 28 0 1 0 291 109.8ZM362.4 101A40 30.5 0 1 1 397.6 57.6L374 66.9A14 8.5 0 1 0 361.7 79ZM361.4 79A40 30.5 0 1 1 325.1 122.4L348.7 113.1A14 8.5 0 1 0 361.4 101ZM476.3 138.3A50 50 0 1 1 511.7 102.9L486.5 97.2A24 28 0 1 0 469.6 117Z"/><circle cx="490.2" cy="116.9" r="14.5" fill="#30BCFE"/></symbol>
+</svg>
+
+<header class="escura faixa">
+  <div class="wrap">
+    <nav>
+      <svg viewBox="0 0 513.4 140" role="img" aria-label="Docso"><use href="#logo"/></svg>
+      <a class="btn btn-azul" href="https://app.docso.com.br">Entrar</a>
+    </nav>
+    <div class="hero">
+      <div>
+        <h1>O jeito certo de fazer, documentado<span class="dot">.</span></h1>
+        <p class="sub">A Docso grava como sua equipe trabalha de verdade, transforma em processo com IA e treina quem chega. Quando alguém sai, o conhecimento fica.</p>
+        <div class="acoes">
+          <a class="btn btn-azul" href="https://app.docso.com.br">Começar agora</a>
+          <a class="btn btn-ghost" href="#como-funciona">Ver como funciona</a>
+        </div>
+      </div>
+      <div class="cena" aria-label="Exemplo: gravação de tela vira documento de processo">
+        <div class="janela">
+          <div class="janela-topo"><span class="rec"></span><span class="url">Gravando · nfse.prefeitura.sp.gov.br/emissao</span></div>
+          <ul class="eventos">
+            <li><span class="t">00:04</span><span class="tipo">clique</span><span class="txt">Emitir NFS-e</span></li>
+            <li><span class="t">00:11</span><span class="tipo">digitou</span><span class="txt">CNPJ do tomador</span></li>
+            <li><span class="t">00:23</span><span class="tipo">clique</span><span class="txt">Código de serviço 17.19 · Contabilidade</span></li>
+            <li><span class="t">00:41</span><span class="tipo">enviou</span><span class="txt">Confirmar emissão</span></li>
+          </ul>
+        </div>
+        <div class="doc">
+          <div class="doc-topo"><span class="label">Financeiro · Versão 3</span><span class="status-pill status-publicado">Publicado</span></div>
+          <h3>Emitir nota fiscal de serviço</h3>
+          <ol>
+            <li><span class="n">1</span><span><b>Abrir o portal da prefeitura</b><span class="desc">Entrar com o certificado do escritório.</span></span></li>
+            <li><span class="n">2</span><span><b>Preencher o tomador</b><span class="desc">CNPJ do cliente, conferido no contrato.</span></span></li>
+            <li><span class="n">3</span><span><b>Escolher o código de serviço</b><span class="desc">17.19 para honorários contábeis.</span></span></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="problema faixa">
+  <div class="wrap">
+    <p class="label">O problema</p>
+    <p class="grande" style="margin-top:16px">Todo escritório tem um jeito de trabalhar. <span>Quase sempre ele mora na cabeça de duas ou três pessoas.</span></p>
+    <div class="fatos">
+      <p><strong>Ninguém tem tempo de escrever</strong>Documentar processo vira tarefa para depois. O depois não chega.</p>
+      <p><strong>Quem chega aprende no improviso</strong>Cada pessoa ensina de um jeito, e o erro passa adiante junto com o acerto.</p>
+      <p><strong>Quem sai leva junto</strong>Uma demissão ou férias longas param a rotina que só aquela pessoa sabia fazer.</p>
+    </div>
+  </div>
+</section>
+
+<section class="pilares faixa">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Documenta, treina e retém<span class="dot">.</span></h2>
+      <p>Três coisas que hoje dependem de esforço manual, resolvidas no mesmo lugar.</p>
+    </div>
+    <div class="pilar-grid">
+      <article class="pilar">
+        <p class="label">Documenta</p>
+        <h3>Grava em vez de escrever</h3>
+        <p>Com a extensão do Chrome, a pessoa faz o trabalho como sempre faz. A IA organiza os cliques em etapas claras, e um gestor revisa antes de publicar.</p>
+        <div class="mini">
+          <div class="row"><span>Conciliação bancária</span><span class="status-pill status-publicado">Publicado</span></div>
+          <div class="row"><span>Admissão de funcionário</span><span class="status-pill status-rascunho">Rascunho</span></div>
+          <div class="row"><span>Fechamento da folha</span><span class="status-pill status-desatualizado">Desatualizado</span></div>
+        </div>
+      </article>
+      <article class="pilar">
+        <p class="label">Treina</p>
+        <h3>Quem chega aprende o certo</h3>
+        <p>Atribua processos a uma pessoa e ela recebe o link por e-mail. Um quiz curto confirma o entendimento, e o gestor valida a execução na prática.</p>
+        <div class="mini">
+          <div class="row"><span>Mariana · Emissão de NFS-e</span><span class="barra"><i style="width:100%"></i></span></div>
+          <div class="row"><span>Rafael · Conciliação bancária</span><span class="barra"><i style="width:60%"></i></span></div>
+          <div class="row"><span>Bruna · Admissão</span><span class="barra"><i style="width:20%"></i></span></div>
+        </div>
+      </article>
+      <article class="pilar">
+        <p class="label">Retém</p>
+        <h3>O conhecimento fica</h3>
+        <p>Cada processo tem versão, setor dono e registro de quem foi treinado. Gere o POP em PDF para auditoria quando precisar.</p>
+        <div class="mini">
+          <div class="row"><span>Versão publicada</span><b>3</b></div>
+          <div class="row"><span>Pessoas treinadas na versão atual</span><b>8 de 9</b></div>
+          <div class="row"><span>Última revisão</span><b>12 out 2026</b></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="fluxo faixa" id="como-funciona">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Do clique ao processo publicado<span class="dot">.</span></h2>
+      <p>Sem consultoria e sem fluxograma. Um processo sai pronto para revisão em minutos.</p>
+    </div>
+    <ol class="passos">
+      <li><span class="num">1</span><h3>Grave</h3><p>Clique em gravar na extensão e execute a tarefa normalmente.</p></li>
+      <li><span class="num">2</span><h3>Converse</h3><p>A IA faz algumas perguntas sobre o que não aparece na tela: objetivo, frequência, exceções.</p></li>
+      <li><span class="num">3</span><h3>Revise</h3><p>O gestor ajusta o texto direto na página e envia para aprovação.</p></li>
+      <li><span class="num">4</span><h3>Publique</h3><p>O processo vai para a biblioteca e quem tem acesso recebe o aviso.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="publico faixa">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Feito para equipes de 5 a 50 pessoas<span class="dot">.</span></h2>
+      <p>Grandes o bastante para o improviso custar caro. Pequenas demais para ter um time só de processos.</p>
+    </div>
+    <div class="tipos">
+      <div class="tipo-card"><span class="ex">Escritórios de contabilidade</span><h3>Rotina fiscal sem depender de uma pessoa</h3><p>Obrigações acessórias, folha e notas, cada uma com o passo a passo do escritório.</p></div>
+      <div class="tipo-card"><span class="ex">Agências</span><h3>Entrega igual, seja quem for o executor</h3><p>Onboarding de cliente, publicação de campanha e relatório mensal no mesmo padrão.</p></div>
+      <div class="tipo-card"><span class="ex">Consultorias</span><h3>Método que não sai pela porta</h3><p>O jeito da casa documentado e ensinado a cada nova contratação.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="planos faixa">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>Preço por empresa, não por pessoa<span class="dot">.</span></h2>
+      <p>Mapeamento é cada processo criado com a IA no mês.</p>
+    </div>
+    <div class="plano-grid">
+      <div class="plano">
+        <h3>Essencial</h3>
+        <p class="preco">R$ 297<small> /mês</small></p>
+        <ul><li><b>Até 10</b> pessoas</li><li><b>15</b> mapeamentos por mês</li><li>Treinamentos e quiz</li></ul>
+      </div>
+      <div class="plano destaque">
+        <h3>Equipe <span class="label" style="color:var(--azul)">Mais escolhido</span></h3>
+        <p class="preco">R$ 597<small> /mês</small></p>
+        <ul><li><b>Até 25</b> pessoas</li><li><b>50</b> mapeamentos por mês</li><li>Treinamentos e quiz</li></ul>
+      </div>
+      <div class="plano">
+        <h3>Empresa</h3>
+        <p class="preco">R$ 997<small> /mês</small></p>
+        <ul><li><b>Até 50</b> pessoas</li><li><b>100</b> mapeamentos por mês</li><li>Treinamentos e quiz</li></ul>
+      </div>
+    </div>
+    <p class="nota">Todos os planos incluem extensão do Chrome, biblioteca de processos, POP em PDF e registro de treinamento para auditoria.</p>
+  </div>
+</section>
+
+<section class="fim faixa">
+  <div class="wrap">
+    <h2>Documente o primeiro processo hoje<span class="dot">.</span></h2>
+    <div class="acoes"><a class="btn btn-azul" href="https://app.docso.com.br">Começar agora</a></div>
+    <footer>
+      <svg viewBox="0 0 513.4 140" role="img" aria-label="Docso"><use href="#logo"/></svg>
+      <span>docso.com.br</span>
+    </footer>
+  </div>
+</section>
+</body>
+</html>
